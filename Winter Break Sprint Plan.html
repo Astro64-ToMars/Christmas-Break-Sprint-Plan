@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AETHER | Winter Break Sprint Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #020617; color: #f8fafc; font-family: 'Inter', sans-serif; }
+        .glass { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .card-active { border-left: 4px solid #3b82f6; background: rgba(59, 130, 246, 0.1); }
+        .tab-btn.active { border-bottom: 2px solid #3b82f6; color: #3b82f6; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-8">
+
+    <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+            <div>
+                <h1 class="text-3xl font-black tracking-tight text-white uppercase">Winter Break Sprint</h1>
+                <p class="text-blue-400 font-mono text-sm">10 DAYS | 120 HOURS TOTAL | DEC 20 - DEC 30</p>
+            </div>
+            <div class="glass px-6 py-3 rounded-xl flex gap-8">
+                <div class="text-center">
+                    <p class="text-[10px] text-gray-500 uppercase">Progress</p>
+                    <p class="font-bold text-xl" id="progress-pct">0%</p>
+                </div>
+                <div class="text-center">
+                    <p class="text-[10px] text-gray-500 uppercase">Focus</p>
+                    <p class="font-bold text-xl text-blue-400">AP Physics 1 + AOPS</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Quick Resource Access -->
+        <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <a href="https://artofproblemsolving.com/alcumus" target="_blank" class="glass p-4 rounded-xl hover:bg-slate-800 transition group">
+                <p class="text-xs text-blue-400 font-bold mb-1">AOPS</p>
+                <p class="text-sm font-semibold">Alcumus Training</p>
+            </a>
+            <a href="https://www.khanacademy.org/science/ap-physics-1" target="_blank" class="glass p-4 rounded-xl hover:bg-slate-800 transition">
+                <p class="text-xs text-green-400 font-bold mb-1">KHAN ACADEMY</p>
+                <p class="text-sm font-semibold">AP Physics 1</p>
+            </a>
+            <a href="https://www.youtube.com/@3blue1brown/playlists" target="_blank" class="glass p-4 rounded-xl hover:bg-slate-800 transition">
+                <p class="text-xs text-red-400 font-bold mb-1">3BLUE1BROWN</p>
+                <p class="text-sm font-semibold">Essence of Calculus</p>
+            </a>
+            <a href="https://github.com/" target="_blank" class="glass p-4 rounded-xl hover:bg-slate-800 transition">
+                <p class="text-xs text-purple-400 font-bold mb-1">TECHNICAL</p>
+                <p class="text-sm font-semibold">GitHub Commits</p>
+            </a>
+        </section>
+
+        <!-- Daily Planner Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <!-- Left: Day Selection -->
+            <div class="lg:col-span-3 space-y-2 h-[600px] overflow-y-auto pr-2">
+                <h3 class="text-xs font-bold text-gray-500 uppercase mb-4 tracking-widest">Select Day</h3>
+                <div id="day-buttons">
+                    <!-- JS Generated Buttons -->
+                </div>
+            </div>
+
+            <!-- Right: Content Display -->
+            <div class="lg:col-span-9">
+                <div class="glass rounded-3xl p-8 min-h-[550px]">
+                    <div id="day-content">
+                        <div class="flex items-center justify-center h-full text-gray-500 py-20">
+                            Select a day to view the curriculum breakdown.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const sprintData = [
+            { day: 1, date: "Dec 20", aops: "Alg 1 + C&P Ch 1", physics: "Kinematics (Pos/Vel)", conceptual: "Calculus Ep 1", tools: "Git init + Vol 1 Ch 7-8", links: { physics: "https://www.khanacademy.org/science/ap-physics-1/ap-one-dimensional-motion", conceptual: "https://www.youtube.com/watch?v=WUvTyaaN26A" } },
+            { day: 2, date: "Dec 21", aops: "Alg 1 + C&P Ch 2", physics: "Kinematics (Accel/Proj)", conceptual: "Calculus Ep 2", tools: "LaTeX Preamble + Vol 1 Ch 9-10", links: { physics: "https://www.khanacademy.org/science/ap-physics-1/ap-one-dimensional-motion", conceptual: "https://www.youtube.com/watch?v=9vKqVkMQHKk" } },
+            { day: 3, date: "Dec 22", aops: "Alg 1 + C&P Ch 3", physics: "Dynamics (Newton's Laws)", conceptual: "Trig: Unit Circle", tools: "Git Branching + Vol 1 Ch 11-12", links: { physics: "https://www.khanacademy.org/science/ap-physics-1/ap-forces-and-newtons-laws-of-motion", conceptual: "https://www.youtube.com/watch?v=yYvT9jN9o3I" } },
+            { day: 4, date: "Dec 23", aops: "Alg 1 + C&P Ch 4", physics: "Circular Motion & Grav", conceptual: "Calculus Ep 3-4", tools: "LaTeX Math Mode + Vol 1 Ch 13-14", links: { physics: "https://www.khanacademy.org/science/ap-physics-1/ap-centripetal-force-and-gravitation", conceptual: "https://www.youtube.com/watch?v=S0_qX4VJhMQ" } },
+            { day: 5, date: "Dec 24", aops: "Alg 1 + C&P Ch 5", physics: "Energy (Work/Kinetic)", conceptual: "Calculus Ep 5", tools: "GitHub Pull + Vol 1 Ch 15-16", links: { physics: "https://www.khanacademy.org/science/ap-physics-1/ap-work-and-energy", conceptual: "https://www.youtube.com/watch?v=S0_qX4VJhMQ" } },
+            { day: 6, date: "Dec 25", aops: "Alg 1 + C&P Ch 6-7", physics: "Momentum & Impulse", conceptual: "Trig: Sine/Cosine", tools: "LaTeX Tables + Vol 1 Ch 17", links: { physics: "https://www.khanacademy.org/science/ap-physics-1/ap-linear-momentum", conceptual: "https://www.youtube.com/watch?v=yYvT9jN9o3I" } },
+            { day: 7, date: "Dec 26", aops: "Alg 1 + C&P Ch 8-9", physics: "Simple Harmonic + Vectors", conceptual: "Calculus Ep 7", tools: "Git Conflicts + Vol 1 Ch 21", links: { physics: "https://www.khanacademy.org/science/ap-physics-1/simple-harmonic-motion-ap", conceptual: "https://www.youtube.com/watch?v=m2vQiPhM_Xk" } },
+            { day: 8, date: "Dec 27", aops: "Alg 1 + C&P Ch 10-11", physics: "Torque & Vector Ops", conceptual: "Calculus Ep 8", tools: "LaTeX BibTeX + Vol 1 Ch 22", links: { physics: "https://www.khanacademy.org/science/ap-physics-1/ap-torque-and-angular-momentum", conceptual: "https://www.youtube.com/watch?v=rfG8ce4nNh0" } },
+            { day: 9, date: "Dec 28", aops: "Alg 1 + C&P Ch 12", physics: "Final Physics Challenge", conceptual: "Calculus Ep 9", tools: "KA: Matrices + Vol 1 Ch 26", links: { physics: "https://www.khanacademy.org/science/ap-physics-1", conceptual: "https://www.youtube.com/watch?v=vV_Xm_DTo1Y" } },
+            { day: 10, date: "Dec 29", aops: "Finish Books & Review", physics: "Matrix Ops & Physics Cert", conceptual: "Lin Alg: E1", tools: "Vol 1 Ch 25 + AMC 8 Mock", links: { physics: "https://www.khanacademy.org/math/linear-algebra", conceptual: "https://www.youtube.com/watch?v=fNk_zzaMoSs" } }
+        ];
+
+        const dayButtons = document.getElementById('day-buttons');
+        const dayContent = document.getElementById('day-content');
+        const progressPct = document.getElementById('progress-pct');
+
+        function updateProgress() {
+            const checked = document.querySelectorAll('input[type="checkbox"]:checked').length;
+            const total = 10; // Simplifying progress to days completed
+            progressPct.innerText = `${(checked / total * 100).toFixed(0)}%`;
+        }
+
+        function renderDay(dayNum) {
+            const data = sprintData.find(d => d.day === dayNum);
+            
+            dayContent.innerHTML = `
+                <div class="flex justify-between items-start mb-8">
+                    <div>
+                        <span class="bg-blue-600 text-[10px] font-bold px-2 py-1 rounded uppercase mb-2 inline-block">Day ${data.day}</span>
+                        <h2 class="text-4xl font-black text-white">${data.date}</h2>
+                    </div>
+                    <label class="flex items-center gap-3 glass p-3 rounded-xl cursor-pointer hover:bg-slate-800 transition">
+                        <input type="checkbox" onchange="updateProgress()" class="w-5 h-5 accent-blue-500">
+                        <span class="text-xs font-bold uppercase tracking-widest">Mark Day Complete</span>
+                    </label>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-6">
+                        <div class="p-4 rounded-2xl border border-blue-500/20 bg-blue-500/5">
+                            <h4 class="text-blue-400 font-mono text-[10px] uppercase mb-2 tracking-widest">AOPS TRACK (3.5H)</h4>
+                            <p class="text-lg font-semibold">${data.aops}</p>
+                        </div>
+                        <div class="p-4 rounded-2xl border border-green-500/20 bg-green-500/5">
+                            <h4 class="text-green-400 font-mono text-[10px] uppercase mb-2 tracking-widest">PHYSICS & VECTORS (3H)</h4>
+                            <p class="text-lg font-semibold mb-3">${data.physics}</p>
+                            <a href="${data.links.physics}" target="_blank" class="text-xs bg-green-600/20 text-green-400 px-3 py-1 rounded hover:bg-green-600 hover:text-white transition">Go to Khan Academy</a>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="p-4 rounded-2xl border border-red-500/20 bg-red-500/5">
+                            <h4 class="text-red-400 font-mono text-[10px] uppercase mb-2 tracking-widest">CONCEPTUAL MATH (2H)</h4>
+                            <p class="text-lg font-semibold mb-3">${data.conceptual}</p>
+                            <a href="${data.links.conceptual}" target="_blank" class="text-xs bg-red-600/20 text-red-400 px-3 py-1 rounded hover:bg-red-600 hover:text-white transition">Watch on YouTube</a>
+                        </div>
+                        <div class="p-4 rounded-2xl border border-purple-500/20 bg-purple-500/5">
+                            <h4 class="text-purple-400 font-mono text-[10px] uppercase mb-2 tracking-widest">TECHNICAL & GEO (2.5H)</h4>
+                            <p class="text-lg font-semibold">${data.tools}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 pt-8 border-t border-slate-800">
+                    <h4 class="text-[10px] text-gray-500 uppercase mb-4 tracking-widest">Daily Schedule Breakdown</h4>
+                    <div class="grid grid-cols-5 gap-2 text-center text-[10px] font-mono">
+                        <div class="glass p-2 rounded">08:00 AOPS</div>
+                        <div class="glass p-2 rounded">12:30 KA</div>
+                        <div class="glass p-2 rounded">15:30 3B1B</div>
+                        <div class="glass p-2 rounded">17:30 GEO</div>
+                        <div class="glass p-2 rounded">19:30 GIT</div>
+                    </div>
+                </div>
+            `;
+
+            // Active button state
+            document.querySelectorAll('.day-btn').forEach(btn => btn.classList.remove('card-active'));
+            document.getElementById(`btn-day-${dayNum}`).classList.add('card-active');
+        }
+
+        function init() {
+            sprintData.forEach(d => {
+                const btn = document.createElement('button');
+                btn.id = `btn-day-${d.day}`;
+                btn.className = 'day-btn w-full text-left glass p-4 mb-2 rounded-xl hover:bg-slate-800 transition flex justify-between items-center';
+                btn.onclick = () => renderDay(d.day);
+                btn.innerHTML = `
+                    <div>
+                        <p class="text-[10px] text-gray-500 font-bold uppercase">${d.date}</p>
+                        <p class="font-bold">Day ${d.day}</p>
+                    </div>
+                    <div class="w-2 h-2 rounded-full bg-slate-700"></div>
+                `;
+                dayButtons.appendChild(btn);
+            });
+            renderDay(1);
+        }
+
+        init();
+    </script>
+</body>
+</html>
