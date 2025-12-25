@@ -3,184 +3,453 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AETHER | Winter Break Sprint Dashboard</title>
+    <title>AETHER | Professional Research Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #020617; color: #f8fafc; font-family: 'Inter', sans-serif; }
-        .glass { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
-        .card-active { border-left: 4px solid #3b82f6; background: rgba(59, 130, 246, 0.1); }
-        .tab-btn.active { border-bottom: 2px solid #3b82f6; color: #3b82f6; }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+        :root {
+            --bg-dark: #020617;
+            --accent-blue: #3b82f6;
+            --accent-purple: #a855f7;
+            --accent-teal: #14b8a6;
+            --accent-gold: #f59e0b;
+        }
+        body { 
+            background-color: var(--bg-dark); 
+            color: #f1f5f9; 
+            font-family: 'Inter', sans-serif;
+            letter-spacing: -0.01em;
+            overflow: hidden;
+        }
+        .glass { 
+            background: rgba(15, 23, 42, 0.7); 
+            backdrop-filter: blur(12px); 
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+        }
+        .sidebar-item {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .sidebar-item.active {
+            background: rgba(59, 130, 246, 0.15);
+            border-left: 4px solid var(--accent-blue);
+            color: white;
+        }
+        .tab-btn {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .tab-btn.active {
+            color: var(--accent-blue);
+        }
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -18px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent-blue);
+            box-shadow: 0 0 10px var(--accent-blue);
+        }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        .deliverable-card {
+            border-left: 2px solid var(--accent-blue);
+            background: linear-gradient(90deg, rgba(59, 130, 246, 0.05) 0%, transparent 100%);
+        }
+        .resource-card {
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+        .resource-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(59, 130, 246, 0.4);
+        }
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .status-dot { animation: pulse-slow 2s infinite; }
     </style>
 </head>
-<body class="min-h-screen p-4 md:p-8">
+<body class="h-screen flex flex-col">
 
-    <div class="max-w-6xl mx-auto">
-        <!-- Header -->
-        <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-            <div>
-                <h1 class="text-3xl font-black tracking-tight text-white uppercase">Winter Break Sprint</h1>
-                <p class="text-blue-400 font-mono text-sm">10 DAYS | 120 HOURS TOTAL | DEC 20 - DEC 30</p>
-            </div>
-            <div class="glass px-6 py-3 rounded-xl flex gap-8">
-                <div class="text-center">
-                    <p class="text-[10px] text-gray-500 uppercase">Progress</p>
-                    <p class="font-bold text-xl" id="progress-pct">0%</p>
-                </div>
-                <div class="text-center">
-                    <p class="text-[10px] text-gray-500 uppercase">Focus</p>
-                    <p class="font-bold text-xl text-blue-400">AP Physics 1 + AOPS</p>
+    <!-- Header -->
+    <header class="glass border-b border-white/5 px-8 pt-4 z-50">
+        <div class="flex justify-between items-center mb-4">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center font-black text-white text-lg">A</div>
+                <div>
+                    <h1 class="text-sm font-extrabold uppercase tracking-tighter">Project AETHER</h1>
+                    <p class="text-[10px] text-blue-400 mono uppercase tracking-widest">10-Day Winter Sprint v6.0</p>
                 </div>
             </div>
-        </header>
-
-        <!-- Quick Resource Access -->
-        <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-            <a href="https://artofproblemsolving.com/alcumus" target="_blank" class="glass p-4 rounded-xl hover:bg-slate-800 transition group">
-                <p class="text-xs text-blue-400 font-bold mb-1">AOPS</p>
-                <p class="text-sm font-semibold">Alcumus Training</p>
-            </a>
-            <a href="https://www.khanacademy.org/science/ap-physics-1" target="_blank" class="glass p-4 rounded-xl hover:bg-slate-800 transition">
-                <p class="text-xs text-green-400 font-bold mb-1">KHAN ACADEMY</p>
-                <p class="text-sm font-semibold">AP Physics 1</p>
-            </a>
-            <a href="https://www.youtube.com/@3blue1brown/playlists" target="_blank" class="glass p-4 rounded-xl hover:bg-slate-800 transition">
-                <p class="text-xs text-red-400 font-bold mb-1">3BLUE1BROWN</p>
-                <p class="text-sm font-semibold">Essence of Calculus</p>
-            </a>
-            <a href="https://github.com/" target="_blank" class="glass p-4 rounded-xl hover:bg-slate-800 transition">
-                <p class="text-xs text-purple-400 font-bold mb-1">TECHNICAL</p>
-                <p class="text-sm font-semibold">GitHub Commits</p>
-            </a>
-        </section>
-
-        <!-- Daily Planner Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            
-            <!-- Left: Day Selection -->
-            <div class="lg:col-span-3 space-y-2 h-[600px] overflow-y-auto pr-2">
-                <h3 class="text-xs font-bold text-gray-500 uppercase mb-4 tracking-widest">Select Day</h3>
-                <div id="day-buttons">
-                    <!-- JS Generated Buttons -->
-                </div>
-            </div>
-
-            <!-- Right: Content Display -->
-            <div class="lg:col-span-9">
-                <div class="glass rounded-3xl p-8 min-h-[550px]">
-                    <div id="day-content">
-                        <div class="flex items-center justify-center h-full text-gray-500 py-20">
-                            Select a day to view the curriculum breakdown.
-                        </div>
-                    </div>
-                </div>
+            <div class="hidden md:flex items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-gray-400">
+                <span id="current-time"></span>
+                <span class="flex items-center gap-2 text-green-500"><span class="w-1.5 h-1.5 rounded-full bg-green-500 status-dot"></span> Active Sync</span>
             </div>
         </div>
+        
+        <nav class="flex gap-8 text-[11px] font-bold uppercase tracking-widest text-gray-500 pb-4">
+            <button onclick="switchTab('overview')" id="tab-overview" class="tab-btn active">Overview</button>
+            <button onclick="switchTab('deliverables')" id="tab-deliverables" class="tab-btn">Daily Units</button>
+            <button onclick="switchTab('resources')" id="tab-resources" class="tab-btn">Resources</button>
+        </nav>
+    </header>
+
+    <div class="flex flex-1 overflow-hidden">
+        <!-- Sidebar -->
+        <aside id="day-sidebar" class="w-80 glass border-r border-white/5 overflow-y-auto p-6 hidden">
+            <h3 class="text-[10px] font-bold text-gray-500 uppercase mb-6 tracking-[0.2em]">Curriculum Timeline</h3>
+            <div id="day-list" class="space-y-2">
+                <!-- Days injected via JS -->
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto p-8 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-blue-900/10 via-transparent to-transparent">
+            <div class="max-w-5xl mx-auto" id="main-view">
+                <!-- Tab content -->
+            </div>
+        </main>
     </div>
 
     <script>
         const sprintData = [
-            { day: 1, date: "Dec 20", aops: "Alg 1 + C&P Ch 1", physics: "Kinematics (Pos/Vel)", conceptual: "Calculus Ep 1", tools: "Git init + Vol 1 Ch 7-8", links: { physics: "https://www.khanacademy.org/science/ap-physics-1/ap-one-dimensional-motion", conceptual: "https://www.youtube.com/watch?v=WUvTyaaN26A" } },
-            { day: 2, date: "Dec 21", aops: "Alg 1 + C&P Ch 2", physics: "Kinematics (Accel/Proj)", conceptual: "Calculus Ep 2", tools: "LaTeX Preamble + Vol 1 Ch 9-10", links: { physics: "https://www.khanacademy.org/science/ap-physics-1/ap-one-dimensional-motion", conceptual: "https://www.youtube.com/watch?v=9vKqVkMQHKk" } },
-            { day: 3, date: "Dec 22", aops: "Alg 1 + C&P Ch 3", physics: "Dynamics (Newton's Laws)", conceptual: "Trig: Unit Circle", tools: "Git Branching + Vol 1 Ch 11-12", links: { physics: "https://www.khanacademy.org/science/ap-physics-1/ap-forces-and-newtons-laws-of-motion", conceptual: "https://www.youtube.com/watch?v=yYvT9jN9o3I" } },
-            { day: 4, date: "Dec 23", aops: "Alg 1 + C&P Ch 4", physics: "Circular Motion & Grav", conceptual: "Calculus Ep 3-4", tools: "LaTeX Math Mode + Vol 1 Ch 13-14", links: { physics: "https://www.khanacademy.org/science/ap-physics-1/ap-centripetal-force-and-gravitation", conceptual: "https://www.youtube.com/watch?v=S0_qX4VJhMQ" } },
-            { day: 5, date: "Dec 24", aops: "Alg 1 + C&P Ch 5", physics: "Energy (Work/Kinetic)", conceptual: "Calculus Ep 5", tools: "GitHub Pull + Vol 1 Ch 15-16", links: { physics: "https://www.khanacademy.org/science/ap-physics-1/ap-work-and-energy", conceptual: "https://www.youtube.com/watch?v=S0_qX4VJhMQ" } },
-            { day: 6, date: "Dec 25", aops: "Alg 1 + C&P Ch 6-7", physics: "Momentum & Impulse", conceptual: "Trig: Sine/Cosine", tools: "LaTeX Tables + Vol 1 Ch 17", links: { physics: "https://www.khanacademy.org/science/ap-physics-1/ap-linear-momentum", conceptual: "https://www.youtube.com/watch?v=yYvT9jN9o3I" } },
-            { day: 7, date: "Dec 26", aops: "Alg 1 + C&P Ch 8-9", physics: "Simple Harmonic + Vectors", conceptual: "Calculus Ep 7", tools: "Git Conflicts + Vol 1 Ch 21", links: { physics: "https://www.khanacademy.org/science/ap-physics-1/simple-harmonic-motion-ap", conceptual: "https://www.youtube.com/watch?v=m2vQiPhM_Xk" } },
-            { day: 8, date: "Dec 27", aops: "Alg 1 + C&P Ch 10-11", physics: "Torque & Vector Ops", conceptual: "Calculus Ep 8", tools: "LaTeX BibTeX + Vol 1 Ch 22", links: { physics: "https://www.khanacademy.org/science/ap-physics-1/ap-torque-and-angular-momentum", conceptual: "https://www.youtube.com/watch?v=rfG8ce4nNh0" } },
-            { day: 9, date: "Dec 28", aops: "Alg 1 + C&P Ch 12", physics: "Final Physics Challenge", conceptual: "Calculus Ep 9", tools: "KA: Matrices + Vol 1 Ch 26", links: { physics: "https://www.khanacademy.org/science/ap-physics-1", conceptual: "https://www.youtube.com/watch?v=vV_Xm_DTo1Y" } },
-            { day: 10, date: "Dec 29", aops: "Finish Books & Review", physics: "Matrix Ops & Physics Cert", conceptual: "Lin Alg: E1", tools: "Vol 1 Ch 25 + AMC 8 Mock", links: { physics: "https://www.khanacademy.org/math/linear-algebra", conceptual: "https://www.youtube.com/watch?v=fNk_zzaMoSs" } }
+            {
+                day: 1, date: "Dec 20", title: "Kinematics & Geo Foundations",
+                math: "Alg 1 & C+P Ch 1",
+                physics: "KA AP Physics 1: Unit 1 (Position/Velocity)",
+                conceptual: "3B1B Calculus: Ep 1 (Visual Essence)",
+                vol1: "AOPS Vol 1: Ch 7 & 8 (Geometry)",
+                tech: "Git Init & Workflow Setup",
+                deliverables: ["Complete KA Unit 1 Kinematics exercises", "Solve AOPS Vol 1 Ch 7 Mastery Problems", "Initialize GitHub Repo: /AETHER-Sprint", "3B1B Ep 1 Summary in LaTeX"]
+            },
+            {
+                day: 2, date: "Dec 21", title: "Acceleration & Triangles",
+                math: "Alg 1 & C+P Ch 2",
+                physics: "KA AP Physics 1: Unit 1 (Acceleration/Projectiles)",
+                conceptual: "3B1B Calculus: Ep 2 (The Derivative)",
+                vol1: "AOPS Vol 1: Ch 9 & 10 (Geometry)",
+                tech: "LaTeX: Professional Preamble",
+                deliverables: ["Derive Projectile equations in LaTeX", "Finish AOPS Vol 1 Ch 10 Triangle problems", "Complete KA Acceleration Quiz", "Document Calculus Ep 2 core visual logic"]
+            },
+            {
+                day: 3, date: "Dec 22", title: "Dynamics & Circles",
+                math: "Alg 1 & C+P Ch 3",
+                physics: "KA AP Physics 1: Unit 2 (Newton's Laws)",
+                conceptual: "3B1B Trig: Unit Circle (The 'Why')",
+                vol1: "AOPS Vol 1: Ch 11 & 12 (Geometry)",
+                tech: "Git: Branching & Merging",
+                deliverables: ["Newton's Law Free-Body Diagrams (LaTeX/TikZ)", "AOPS Vol 1 Ch 12 Mastery", "KA Newton's Laws Summary Quiz", "Trig Unit Circle visualization notes"]
+            },
+            {
+                day: 4, date: "Dec 23", title: "Circular Motion & Area",
+                math: "Alg 1 & C+P Ch 4",
+                physics: "KA AP Physics 1: Unit 3 (Circular Motion & Gravity)",
+                conceptual: "3B1B Calculus: Ep 3-4 (Chain Rule)",
+                vol1: "AOPS Vol 1: Ch 13 & 14 (Geometry)",
+                tech: "LaTeX: Math Mode Proficiency",
+                deliverables: ["Complete KA Unit 3 Coursework", "AOPS Vol 1 Ch 14 Area challenges", "Complex Chain Rule derivations in LaTeX", "Solve 5 Gravitation word problems"]
+            },
+            {
+                day: 5, date: "Dec 24", title: "Energy & Analytic Geo",
+                math: "Alg 1 & C+P Ch 5",
+                physics: "KA AP Physics 1: Unit 4 (Work/Energy)",
+                conceptual: "3B1B Calculus: Ep 5 (Power Rule)",
+                vol1: "AOPS Vol 1: Ch 15 & 16 (Analytic Geometry)",
+                tech: "GitHub: Pull Requests & Documentation",
+                deliverables: ["KA Energy Summary Quiz", "AOPS Vol 1 Analytic Geometry Ch 16", "3B1B Ep 5 Summary (LaTeX)", "Document Work-Energy Theorem in research logs"]
+            },
+            {
+                day: 6, date: "Dec 25", title: "Momentum & Rotation",
+                math: "Alg 1 & C+P Ch 6-7",
+                physics: "KA AP Physics 1: Unit 5 (Momentum & Impulse)",
+                conceptual: "3B1B Trig: Sine/Cosine Waves",
+                vol1: "AOPS Vol 1: Ch 17 (Analytic Geometry)",
+                tech: "LaTeX: Professional Tables",
+                deliverables: ["Conservation of Momentum Problems (KA)", "AOPS Vol 1 Ch 17 Mastery", "Analyze Sine waves as time-domain rotation", "Latex Table of Energy vs Momentum"]
+            },
+            {
+                day: 7, date: "Dec 26", title: "Harmonic Motion & Trig",
+                math: "Alg 1 & C+P Ch 8-9",
+                physics: "KA AP Physics 1: Unit 6 (Simple Harmonic Motion)",
+                conceptual: "3B1B Calculus: Ep 7 (Limits)",
+                vol1: "AOPS Vol 1: Ch 21 (Trig Foundations)",
+                tech: "Git: Conflict Resolution",
+                deliverables: ["KA Harmonic Motion Exercises", "AOPS Vol 1 Ch 21 Trig problems", "Limit Definition proof in LaTeX", "Map SHM to Unit Circle rotation"]
+            },
+            {
+                day: 8, date: "Dec 27", title: "Torque & Integration",
+                math: "Alg 1 & C+P Ch 10-11",
+                physics: "KA AP Physics 1: Unit 7 (Torque/Rotation)",
+                conceptual: "3B1B Calculus: Ep 8 (Integration)",
+                vol1: "AOPS Vol 1: Ch 22 (Trig Applications)",
+                tech: "LaTeX: BibTeX & Citations",
+                deliverables: ["KA Unit 7 Final Challenge", "AOPS Vol 1 Ch 22 Trig", "Area under curve via integration (Latex)", "Torque vs Force analysis report"]
+            },
+            {
+                day: 9, date: "Dec 28", title: "Vector Ops & Matrices",
+                math: "Alg 1 & C+P Ch 12",
+                physics: "KA: Vector & Matrix Ops Mastery",
+                conceptual: "3B1B Linear Algebra: Ep 1",
+                vol1: "AOPS Vol 1: Ch 25 (Vectors)",
+                tech: "Environment: Matrix Kernels",
+                deliverables: ["Complete KA Vector/Matrix modules", "AOPS Vol 1 Ch 25 Vector problems", "Linear Transformation summary in LaTeX", "Implement 2x2 Matrix Op in Python"]
+            },
+            {
+                day: 10, date: "Dec 29", title: "Final Review & Mock Exam",
+                math: "Finish Books & Review",
+                physics: "KA: Final Physics Course Challenge",
+                conceptual: "Linear Algebra Mastery",
+                vol1: "AOPS Vol 1: Ch 26 (Review)",
+                tech: "AMC 8 Mock Test Preparation",
+                deliverables: ["100% Mastery AP Physics 1 (KA)", "AMC 8 Mock Test (Timed)", "Final Sprint Project Compilation", "Push final LaTeX research docs to GitHub"]
+            }
         ];
 
-        const dayButtons = document.getElementById('day-buttons');
-        const dayContent = document.getElementById('day-content');
-        const progressPct = document.getElementById('progress-pct');
+        let currentTab = 'overview';
+        let selectedDay = 1;
 
-        function updateProgress() {
-            const checked = document.querySelectorAll('input[type="checkbox"]:checked').length;
-            const total = 10; // Simplifying progress to days completed
-            progressPct.innerText = `${(checked / total * 100).toFixed(0)}%`;
+        function switchTab(tabId) {
+            currentTab = tabId;
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`tab-${tabId}`).classList.add('active');
+            const sidebar = document.getElementById('day-sidebar');
+            if (tabId === 'deliverables') sidebar.classList.remove('hidden');
+            else sidebar.classList.add('hidden');
+            render();
         }
 
-        function renderDay(dayNum) {
-            const data = sprintData.find(d => d.day === dayNum);
-            
-            dayContent.innerHTML = `
-                <div class="flex justify-between items-start mb-8">
-                    <div>
-                        <span class="bg-blue-600 text-[10px] font-bold px-2 py-1 rounded uppercase mb-2 inline-block">Day ${data.day}</span>
-                        <h2 class="text-4xl font-black text-white">${data.date}</h2>
-                    </div>
-                    <label class="flex items-center gap-3 glass p-3 rounded-xl cursor-pointer hover:bg-slate-800 transition">
-                        <input type="checkbox" onchange="updateProgress()" class="w-5 h-5 accent-blue-500">
-                        <span class="text-xs font-bold uppercase tracking-widest">Mark Day Complete</span>
-                    </label>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="space-y-6">
-                        <div class="p-4 rounded-2xl border border-blue-500/20 bg-blue-500/5">
-                            <h4 class="text-blue-400 font-mono text-[10px] uppercase mb-2 tracking-widest">AOPS TRACK (3.5H)</h4>
-                            <p class="text-lg font-semibold">${data.aops}</p>
+        function render() {
+            const container = document.getElementById('main-view');
+            if (currentTab === 'overview') {
+                container.innerHTML = `
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="md:col-span-2 space-y-6">
+                            <div class="glass p-8 rounded-3xl border-t border-white/10">
+                                <h2 class="text-4xl font-extrabold text-white mb-4 tracking-tighter">Winter Break Sprint Plan</h2>
+                                <p class="text-gray-400 leading-relaxed mb-6">Mastering AOPS Algebra/Geometry, AP Physics 1, and Calculus foundations in 10 days of high-intensity research.</p>
+                                <div class="flex gap-4">
+                                    <button onclick="switchTab('deliverables')" class="px-6 py-2.5 bg-blue-600 text-white text-[11px] font-black uppercase tracking-widest rounded-full hover:bg-blue-500 transition">View Daily Units</button>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-6">
+                                <div class="glass p-6 rounded-2xl">
+                                    <h4 class="text-[10px] font-black text-blue-500 uppercase mb-2">Math Core</h4>
+                                    <p class="text-2xl font-bold text-white">AOPS Alg/C&P</p>
+                                    <p class="text-xs text-gray-500 mt-1">100% Completion Goal</p>
+                                </div>
+                                <div class="glass p-6 rounded-2xl">
+                                    <h4 class="text-[10px] font-black text-amber-500 uppercase mb-2">Technical Track</h4>
+                                    <p class="text-2xl font-bold text-white">Vol 1 Geo</p>
+                                    <p class="text-xs text-gray-500 mt-1">Ch 7 through Ch 26</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="p-4 rounded-2xl border border-green-500/20 bg-green-500/5">
-                            <h4 class="text-green-400 font-mono text-[10px] uppercase mb-2 tracking-widest">PHYSICS & VECTORS (3H)</h4>
-                            <p class="text-lg font-semibold mb-3">${data.physics}</p>
-                            <a href="${data.links.physics}" target="_blank" class="text-xs bg-green-600/20 text-green-400 px-3 py-1 rounded hover:bg-green-600 hover:text-white transition">Go to Khan Academy</a>
+                        <div class="glass p-8 rounded-3xl border-t border-white/10 h-fit">
+                            <h3 class="text-sm font-bold text-white mb-6 uppercase tracking-widest">Sprint Stats</h3>
+                            <div class="space-y-4 text-[11px]">
+                                <div class="flex justify-between"><span>Daily Commitment</span><span class="text-blue-400">12 Hours</span></div>
+                                <div class="flex justify-between"><span>Physics Mastery</span><span class="text-teal-400">AP Unit 1-7</span></div>
+                                <div class="flex justify-between"><span>Geo Speed</span><span class="text-amber-400">2 Ch/Day</span></div>
+                                <div class="pt-4 border-t border-white/5 mt-4">
+                                    <p class="text-gray-500 italic">"Focus on the 'Why' of Trig and the Synergy of Vectors/Matrices."</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (currentTab === 'deliverables') {
+                const data = sprintData.find(d => d.day === selectedDay);
+                container.innerHTML = `
+                    <div class="mb-10">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 text-[10px] font-bold mono uppercase tracking-widest">${data.date} | Day ${data.day}</span>
+                            <div class="h-[1px] flex-1 bg-white/5"></div>
+                        </div>
+                        <h2 class="text-5xl font-extrabold text-white mb-4 tracking-tighter">${data.title}</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div class="glass p-6 rounded-2xl border-l-2 border-blue-500">
+                            <p class="text-[10px] font-black text-blue-500 uppercase tracking-widest mb-3">Math Core (Alg / C&P)</p>
+                            <p class="text-sm font-semibold text-gray-200">${data.math}</p>
+                        </div>
+                        <div class="glass p-6 rounded-2xl border-l-2 border-teal-500">
+                            <p class="text-[10px] font-black text-teal-500 uppercase tracking-widest mb-3">Physics Mastery (KA)</p>
+                            <p class="text-sm font-semibold text-gray-200">${data.physics}</p>
+                        </div>
+                        <div class="glass p-6 rounded-2xl border-l-2 border-amber-500">
+                            <p class="text-[10px] font-black text-amber-500 uppercase tracking-widest mb-3">Geometry Focus (Vol 1)</p>
+                            <p class="text-sm font-semibold text-gray-200">${data.vol1}</p>
+                        </div>
+                        <div class="glass p-6 rounded-2xl border-l-2 border-purple-500">
+                            <p class="text-[10px] font-black text-purple-500 uppercase tracking-widest mb-3">Tools & Concepts (3B1B/Git)</p>
+                            <p class="text-sm font-semibold text-gray-200">${data.conceptual} | ${data.tech}</p>
                         </div>
                     </div>
 
-                    <div class="space-y-6">
-                        <div class="p-4 rounded-2xl border border-red-500/20 bg-red-500/5">
-                            <h4 class="text-red-400 font-mono text-[10px] uppercase mb-2 tracking-widest">CONCEPTUAL MATH (2H)</h4>
-                            <p class="text-lg font-semibold mb-3">${data.conceptual}</p>
-                            <a href="${data.links.conceptual}" target="_blank" class="text-xs bg-red-600/20 text-red-400 px-3 py-1 rounded hover:bg-red-600 hover:text-white transition">Watch on YouTube</a>
-                        </div>
-                        <div class="p-4 rounded-2xl border border-purple-500/20 bg-purple-500/5">
-                            <h4 class="text-purple-400 font-mono text-[10px] uppercase mb-2 tracking-widest">TECHNICAL & GEO (2.5H)</h4>
-                            <p class="text-lg font-semibold">${data.tools}</p>
+                    <div class="glass rounded-3xl p-8">
+                        <h3 class="text-xs font-bold uppercase tracking-[0.2em] text-gray-500 mb-6 flex items-center gap-3">
+                            Daily Submission Checklist
+                            <div class="h-[1px] flex-1 bg-white/5"></div>
+                        </h3>
+                        <div class="grid gap-3">
+                            ${data.deliverables.map(item => `
+                                <div class="flex items-center gap-4 p-4 rounded-xl bg-white/2 deliverable-card group hover:bg-white/5 transition">
+                                    <div class="w-5 h-5 rounded border border-white/20 flex items-center justify-center text-[10px] text-blue-500 font-bold group-hover:border-blue-500/50 italic cursor-pointer">○</div>
+                                    <span class="text-sm text-gray-300 font-medium">${item}</span>
+                                </div>
+                            `).join('')}
                         </div>
                     </div>
-                </div>
-
-                <div class="mt-8 pt-8 border-t border-slate-800">
-                    <h4 class="text-[10px] text-gray-500 uppercase mb-4 tracking-widest">Daily Schedule Breakdown</h4>
-                    <div class="grid grid-cols-5 gap-2 text-center text-[10px] font-mono">
-                        <div class="glass p-2 rounded">08:00 AOPS</div>
-                        <div class="glass p-2 rounded">12:30 KA</div>
-                        <div class="glass p-2 rounded">15:30 3B1B</div>
-                        <div class="glass p-2 rounded">17:30 GEO</div>
-                        <div class="glass p-2 rounded">19:30 GIT</div>
+                `;
+                document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
+                const activeSide = document.getElementById(`side-day-${selectedDay}`);
+                if (activeSide) activeSide.classList.add('active');
+            } else if (currentTab === 'resources') {
+                container.innerHTML = `
+                    <div class="mb-10">
+                        <h2 class="text-5xl font-extrabold text-white mb-2 tracking-tighter uppercase">Resource Hub</h2>
+                        <p class="text-gray-400 font-medium">Curated links and documentation for the 10-Day Integrated Sprint.</p>
                     </div>
-                </div>
-            `;
 
-            // Active button state
-            document.querySelectorAll('.day-btn').forEach(btn => btn.classList.remove('card-active'));
-            document.getElementById(`btn-day-${dayNum}`).classList.add('card-active');
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Math / AOPS -->
+                        <section>
+                            <h3 class="text-[10px] font-black text-blue-500 uppercase tracking-[0.2em] mb-4">Math Core & Competitive</h3>
+                            <div class="space-y-4">
+                                <a href="https://artofproblemsolving.com/store" target="_blank" class="block glass p-5 rounded-2xl resource-card">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <h4 class="text-white font-bold text-sm mb-1">AOPS Vol 1: The Basics</h4>
+                                            <p class="text-xs text-gray-500">Chapters 7-26 (Geometry/Trig/Vectors Focus)</p>
+                                        </div>
+                                        <span class="text-blue-500 text-xs font-bold">Book</span>
+                                    </div>
+                                </a>
+                                <a href="https://artofproblemsolving.com/school/course/intro-algebra" target="_blank" class="block glass p-5 rounded-2xl resource-card">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <h4 class="text-white font-bold text-sm mb-1">Intro to Algebra</h4>
+                                            <p class="text-xs text-gray-500">Daily Algebraic Manipulation Block</p>
+                                        </div>
+                                        <span class="text-blue-500 text-xs font-bold">Course</span>
+                                    </div>
+                                </a>
+                                <a href="https://artofproblemsolving.com/school/course/intro-counting" target="_blank" class="block glass p-5 rounded-2xl resource-card">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <h4 class="text-white font-bold text-sm mb-1">Counting & Probability</h4>
+                                            <p class="text-xs text-gray-500">Combinatorics & Game Theory Fundamentals</p>
+                                        </div>
+                                        <span class="text-blue-500 text-xs font-bold">Course</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </section>
+
+                        <!-- Physics / Khan -->
+                        <section>
+                            <h3 class="text-[10px] font-black text-teal-500 uppercase tracking-[0.2em] mb-4">Physics & Matrices</h3>
+                            <div class="space-y-4">
+                                <a href="https://www.khanacademy.org/science/ap-physics-1" target="_blank" class="block glass p-5 rounded-2xl resource-card">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <h4 class="text-white font-bold text-sm mb-1">AP Physics 1 Mastery</h4>
+                                            <p class="text-xs text-gray-500">Units 1-7 Mastery Challenge</p>
+                                        </div>
+                                        <span class="text-teal-500 text-xs font-bold">Cert</span>
+                                    </div>
+                                </a>
+                                <a href="https://www.khanacademy.org/math/precalculus/x9e81a4f98389efdf:vectors" target="_blank" class="block glass p-5 rounded-2xl resource-card">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <h4 class="text-white font-bold text-sm mb-1">KA Vectors & Matrices</h4>
+                                            <p class="text-xs text-gray-500">Bridge to Linear Algebra foundations</p>
+                                        </div>
+                                        <span class="text-teal-500 text-xs font-bold">Video</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </section>
+
+                        <!-- Visual / 3B1B -->
+                        <section>
+                            <h3 class="text-[10px] font-black text-purple-500 uppercase tracking-[0.2em] mb-4">Visual Conceptualization</h3>
+                            <div class="space-y-4">
+                                <a href="https://www.youtube.com/playlist?list=PLZHQObOWTQDMsr9K-rj53DwVRMYO3t5Yr" target="_blank" class="block glass p-5 rounded-2xl resource-card">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <h4 class="text-white font-bold text-sm mb-1">Essence of Calculus</h4>
+                                            <p class="text-xs text-gray-500">3Blue1Brown - Episodes 1-9</p>
+                                        </div>
+                                        <span class="text-purple-500 text-xs font-bold">Playlist</span>
+                                    </div>
+                                </a>
+                                <a href="https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab" target="_blank" class="block glass p-5 rounded-2xl resource-card">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <h4 class="text-white font-bold text-sm mb-1">Essence of Linear Algebra</h4>
+                                            <p class="text-xs text-gray-500">Vector/Matrix Geometric Intuition</p>
+                                        </div>
+                                        <span class="text-purple-500 text-xs font-bold">Playlist</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </section>
+
+                        <!-- Tech / Dev -->
+                        <section>
+                            <h3 class="text-[10px] font-black text-amber-500 uppercase tracking-[0.2em] mb-4">Technical Documentation</h3>
+                            <div class="space-y-4">
+                                <a href="https://www.overleaf.com/learn" target="_blank" class="block glass p-5 rounded-2xl resource-card">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <h4 class="text-white font-bold text-sm mb-1">LaTeX Documentation</h4>
+                                            <p class="text-xs text-gray-500">Overleaf Mathematical Typesetting Wiki</p>
+                                        </div>
+                                        <span class="text-amber-500 text-xs font-bold">Docs</span>
+                                    </div>
+                                </a>
+                                <a href="https://git-scm.com/doc" target="_blank" class="block glass p-5 rounded-2xl resource-card">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <h4 class="text-white font-bold text-sm mb-1">Git Version Control</h4>
+                                            <p class="text-xs text-gray-500">Branching & Repository Management</p>
+                                        </div>
+                                        <span class="text-amber-500 text-xs font-bold">Docs</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </section>
+                    </div>
+                `;
+            }
         }
 
         function init() {
+            const list = document.getElementById('day-list');
             sprintData.forEach(d => {
-                const btn = document.createElement('button');
-                btn.id = `btn-day-${d.day}`;
-                btn.className = 'day-btn w-full text-left glass p-4 mb-2 rounded-xl hover:bg-slate-800 transition flex justify-between items-center';
-                btn.onclick = () => renderDay(d.day);
-                btn.innerHTML = `
-                    <div>
-                        <p class="text-[10px] text-gray-500 font-bold uppercase">${d.date}</p>
-                        <p class="font-bold">Day ${d.day}</p>
+                const item = document.createElement('div');
+                item.id = `side-day-${d.day}`;
+                item.className = 'sidebar-item p-4 rounded-xl cursor-pointer hover:bg-white/5 flex flex-col gap-1';
+                item.onclick = () => { selectedDay = d.day; render(); };
+                item.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <span class="text-[9px] font-bold text-gray-500 uppercase tracking-widest">${d.date}</span>
                     </div>
-                    <div class="w-2 h-2 rounded-full bg-slate-700"></div>
+                    <span class="text-xs font-bold truncate">${d.title}</span>
+                    <div class="flex gap-2 mt-1">
+                        <span class="text-[8px] text-amber-500 font-bold uppercase tracking-tighter">Geo Ch ${d.vol1.match(/\d+ & \d+|\d+/)[0]}</span>
+                        <span class="text-[8px] text-teal-400 font-bold uppercase tracking-tighter">KA Phy</span>
+                    </div>
                 `;
-                dayButtons.appendChild(btn);
+                list.appendChild(item);
             });
-            renderDay(1);
+            setInterval(() => { document.getElementById('current-time').innerText = new Date().toLocaleTimeString('en-US', { hour12: false }); }, 1000);
+            render();
         }
-
         init();
     </script>
 </body>
-
 </html>
