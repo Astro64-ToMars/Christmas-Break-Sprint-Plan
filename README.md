@@ -1,2 +1,7 @@
 # Christmas-Break-Sprint-Plan
-This is a dashboard that teaches me what I will be doing over Christmas Break. Furthermore, it serves as a dashboard to document everything I have done, and everything I need to do over Christmas Break.
+
+**Date:** 12/26/2025 to 01/04/2025
+
+**Topics:** Math, Physics, Calculus, Linear Algebra, Trigonometry, LaTeX, GitHub
+
+A 10-day high-intensity roadmap combining competitive math mastery, AP Physics certification, and visual calculus foundations.
