@@ -1,2 +1,2 @@
 # GitHub Practice
-**Date:** 12/26/2025 to 01/04/2026
+**Description:** I can use this document to write any notes on GitHub and practice my techniques for GitHub
