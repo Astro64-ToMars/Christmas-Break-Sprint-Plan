@@ -43,3 +43,23 @@ Some examples of vector quantities are:
 ### Keep in mind
 - You cannot add two scalars/vectors of different types of quantities. For example, you cannot add temperature quantities to volume quantities, or velocity quantities to displacement quantities. It is imporatnt to pay attention to units to avoid this mistake.
 - Clearly define your coordinate system before doing vector calculations. Positive vectors can look like scalars with no sign. Direction and signs are very important with vectors, even if the direction is implied.
+
+### Different Quantities
+
+**Position:** "Location"; Location is always measured with respect to a reference point. Using that reference point, we can find the position with respect to where the reference point is. We must use direction in relation to the reference point to define position. As a result, position is a vector quantity. Usually, in convention, x is used to denote position. *Position is always in relation to another, specific reference frame (point).*
+
+**Velocity:** Measure of "How quickly the position changes." Velocity is a vector quantity, because position is also a vector quantity. A velocity like $5~\mathrm{m/s}$ states that if the car was travelling at a constant speed, its position would change 5 meters every second. Change in position is defined as the "final position" minus the "initial position". Remember, velocity can be to the right, or to the left because velocity is a vector quantity and has direction.
+
+$${v = \frac{\Delta x}{\Delta t}}$$
+
+Velocity is equal to the change in position, divided by the time taken for that change in position to occur.
+
+**Speed:** Measure of "How quickly a specific distance is travelled"
+
+$${speed = \frac{distance}{time}}$$
+
+Speed is equal to the distance travelled, divided by the time taken to travel that distance.
+
+### What is the difference between speed and velocity?
+
+Speed is the measure of *distance* which doesn't contain the element of direction. Speed only has a magnitude, or is a scalar quantity, but velocity contains direction. In conclusion, speed is just velocity without direction. Velocity is the measure of "the change in position" while speed is the measure of the "change in distance", and distance doesn't change based on direction, while position does.
