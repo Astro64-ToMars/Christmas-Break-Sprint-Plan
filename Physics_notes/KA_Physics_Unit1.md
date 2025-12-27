@@ -1,6 +1,13 @@
-# Khan Academy | AP Physics 1, Unit 1 | Giancoli Physics Chapters 1 - 3
-**Date:** 12/26/2025 - 12/29/2025 
-**Topics:** Scalars & Vectors, Motion, 1D & 2D Kinematics
+# Physics Notes
+
+**Date:** 12/27/2025 - 12/29/2025 
+
+**Topics:** Newton's Laws, Circular Motion and Gravitation, Work and Energy  
+
+## Khan Academy | AP Physics 1, Unit 1
 
 ---
+
+## Giancoli Physics Chapters 1 - 3
+
 
