@@ -27,7 +27,7 @@ Tools used: Net Ninja,
 - The contents of all repo's are tracked by Git
 - a ".git" file is a repository being tracked by Git. The ".git" file needs to be at the root of the repository
 
-**Commits:*** A version history where you can return to any "commited change" at any point. It is like a "save point"  
+**Commits:** A version history where you can return to any "commited change" at any point. It is like a "save point"  
 You can rewind back to any commit in the commit history you want using Git.
 
 **3 stages of Commits:**
