@@ -4,8 +4,3 @@
 
 ---
 
-## Scalars & Vectors in 1D - Khan Academy
-
----
-
-## 
