@@ -8,7 +8,7 @@
 
 ---
 
-## Giancoli Physics Chapters 4-6
+## Giancoli Physics Chapters 4 - 6
 
 
 
